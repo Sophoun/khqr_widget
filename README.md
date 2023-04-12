@@ -17,7 +17,7 @@ The KHQR package is QR widgets that align with Cambodia QR spec.
 
 It's easily to show KHQR in your app.
 
-<img src="./khqr_preview.png"  width="300" height="420">
+![Preview](./khqr_preview.png)
 
 ## Getting started
 
