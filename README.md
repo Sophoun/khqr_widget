@@ -11,29 +11,64 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+The KHQR package is QR widgets that align with Cambodia QR spec.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+It's easily to show KHQR in your app.
+
+<img src="./khqr_preview.png"  width="300" height="420">
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+To geting start with the package. Add dependency to your `pubspec.yaml`
+
+```yaml
+dependencies:
+  khqr: 'latest-version'
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
 ```dart
-const like = 'sample';
+KhqrQrPreivewWidget(
+  width: 300,
+  receiverName: "Cambify",
+  amount: "25.00"
+  currency: "USD",
+  qr: "your-qr-string",
+  image: Image.asset(
+     "assets/images/logo.png",
+  ),
+  duration:
+      widget.checkoutController.verifyPaymentTimeout,
+  onRetry: () => _checkPaymentWithRetry(
+    context,
+    widget.checkout.saleOrder.id,
+  ),
+),
 ```
 
-## Additional information
+## MIT License
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```
+Copyright (c) 2023 Sophoun Nheum
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
