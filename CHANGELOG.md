@@ -1,3 +1,7 @@
+## 0.0.5
+
+* Update example.
+
 ## 0.0.4
 
 * Add screenshot to support `pub.dev` preview.

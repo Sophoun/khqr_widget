@@ -40,12 +40,10 @@ KhqrWidget(
   image: Image.asset(
      "assets/images/logo.png",
   ),
-  duration:
-      widget.checkoutController.verifyPaymentTimeout,
-  onRetry: () => _checkPaymentWithRetry(
-    context,
-    widget.checkout.saleOrder.id,
-  ),
+  duration: Duration(minutes: 3),
+  onRetry: () => {
+    // TODO()
+  },
 ),
 ```
 
