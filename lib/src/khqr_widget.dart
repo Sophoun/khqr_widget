@@ -6,8 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 // ignore: must_be_immutable
-class KhqrQrPreivewWidget extends StatelessWidget {
-  KhqrQrPreivewWidget({
+class KhqrWidget extends StatelessWidget {
+  KhqrWidget({
     super.key,
     this.width = 300,
     required this.receiverName,
