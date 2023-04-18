@@ -15,7 +15,7 @@ class KhqrWidget extends StatelessWidget {
     required this.currency,
     required this.qr,
     this.image,
-    this.duration,
+    this.duration = const Duration(minutes: 15),
     this.onRetry,
   }) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -68,8 +68,11 @@ class KhqrWidget extends StatelessWidget {
                   width: width,
                   color: const Color.fromRGBO(255, 35, 26, 1),
                   padding: EdgeInsets.all(width * 0.1 * _aspecRatio),
-                  child: Image.asset(
-                    "assets/images/KHQR_Logo_white.png",
+                  child: const Image(
+                    image: AssetImage(
+                      "assets/images/KHQR_Logo_white.png",
+                      package: "khqr",
+                    ),
                   ),
                 ),
                 Expanded(
