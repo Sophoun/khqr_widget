@@ -1,3 +1,11 @@
+## 1.0.2
+
+* Update docs.
+
+## 1.0.1
+
+* Chnage package name from `khqr` to `khqr_widget`, to prevent conflict with KHQR branding.
+
 ## 1.0.0
 
 * Add `KhqrStandWidget` and fix bugs on `KhqrWidget` that missing assets.

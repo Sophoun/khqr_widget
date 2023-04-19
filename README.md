@@ -23,7 +23,7 @@ To geting start with the package. Add dependency to your `pubspec.yaml`
 
 ```yaml
 dependencies:
-  khqr: 'latest-version'
+  khqr_widget: 'latest-version'
 ```
 
 ## Usage
