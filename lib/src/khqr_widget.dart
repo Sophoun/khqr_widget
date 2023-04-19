@@ -71,7 +71,7 @@ class KhqrWidget extends StatelessWidget {
                   child: const Image(
                     image: AssetImage(
                       "assets/images/KHQR_Logo_white.png",
-                      package: "khqr",
+                      package: "khqr_widget",
                     ),
                   ),
                 ),

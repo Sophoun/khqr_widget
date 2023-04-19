@@ -30,7 +30,7 @@ dependencies:
 
 - KhqrWidget
 
-![Preview](https://github.com/Sophoun/khqr/raw/main/khqr_preview.png)
+![Preview](https://github.com/Sophoun/khqr_widget/raw/main/khqr_preview.png)
 
 ```dart
 KhqrWidget(
@@ -51,7 +51,7 @@ KhqrWidget(
 
 - KhqrStandWidget
 
-![Preview](https://github.com/Sophoun/khqr/raw/main/khqr_stand_preview.png)
+![Preview](https://github.com/Sophoun/khqr_widget/raw/main/khqr_stand_preview.png)
 
 ```dart
 KhqrStandWidget(

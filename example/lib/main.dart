@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khqr/khqr.dart';
+import 'package:khqr_widget/khqr_widget.dart';
 
 void main() {
   runApp(const MyApp());

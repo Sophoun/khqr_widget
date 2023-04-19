@@ -1,7 +1,7 @@
-name: khqr
-description: KHQR widget
-version: 1.0.0
-homepage: https://github.com/sophoun/khqr
+name: khqr_widget
+description: Khqr_widget help you crate a standard KHQR preview in your app without any efforts.
+version: 1.0.1
+homepage: https://github.com/sophoun/khqr_widget
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
