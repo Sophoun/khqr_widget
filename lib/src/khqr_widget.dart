@@ -169,7 +169,7 @@ class KhqrWidget extends StatelessWidget {
                                     stream: _durationStream.stream,
                                     builder: (context, snapshot) {
                                       final data = snapshot.data;
-                                      return data!.inSeconds > 0
+                                      return (data?.inSeconds ?? 0) > 0
                                           ? QrImage(
                                               padding: const EdgeInsets.all(0),
                                               data: qr,
@@ -216,7 +216,7 @@ class KhqrWidget extends StatelessWidget {
                 textAlign: TextAlign.left,
                 text: TextSpan(
                   text:
-                      "QR expired in: ${_duration!.inMinutes.remainder(60).toString().padLeft(1, '0')}:${_duration!.inSeconds.remainder(60).toString().padLeft(2, '0')}",
+                      "QR expired in: ${_duration?.inMinutes.remainder(60).toString().padLeft(1, '0')}:${_duration?.inSeconds.remainder(60).toString().padLeft(2, '0')}",
                   style: GoogleFonts.nunitoSans().copyWith(
                     fontSize: 0.07 * width * _aspecRatio,
                     color: Colors.black54,

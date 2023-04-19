@@ -1,3 +1,7 @@
+## 1.0.0
+
+* Add `KhqrStandWidget` and fix bugs on `KhqrWidget` that missing assets.
+
 ## 0.0.5
 
 * Update example.

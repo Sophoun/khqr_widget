@@ -17,8 +17,6 @@ The KHQR package is QR widgets that align with Cambodia QR spec.
 
 It's easily to show KHQR in your app.
 
-![Preview](https://github.com/Sophoun/khqr/raw/main/khqr_preview.png)
-
 ## Getting started
 
 To geting start with the package. Add dependency to your `pubspec.yaml`
@@ -29,6 +27,10 @@ dependencies:
 ```
 
 ## Usage
+
+- KhqrWidget
+
+![Preview](https://github.com/Sophoun/khqr/raw/main/khqr_preview.png)
 
 ```dart
 KhqrWidget(
@@ -45,6 +47,21 @@ KhqrWidget(
     // TODO()
   },
 ),
+```
+
+- KhqrStandWidget
+
+![Preview](https://github.com/Sophoun/khqr/raw/main/khqr_stand_preview.png)
+
+```dart
+KhqrStandWidget(
+  logo: Image.asset("assets/cambify.png"),
+  qrData:
+      "YOUR_QR_DATA",
+  name: "John Due",
+  bakongId: "yourbakong@id",
+  qrIcon: Image.asset("assets/dolar_symbol.png"),
+)
 ```
 
 ## MIT License
