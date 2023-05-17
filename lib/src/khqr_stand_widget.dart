@@ -59,7 +59,7 @@ class KhqrStandWidget extends StatelessWidget {
                 top: constraints.minHeight * 0.45 * aspecRatio,
                 left: constraints.minWidth * 0.41 * aspecRatio,
                 right: constraints.minWidth * 0.41 * aspecRatio,
-                child: QrImage(
+                child: QrImageView(
                   data: qrData,
                   embeddedImage: qrIcon?.image,
                 ),

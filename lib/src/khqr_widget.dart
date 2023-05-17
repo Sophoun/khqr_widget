@@ -6,8 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 // ignore: must_be_immutable
-class KhqrWidget extends StatelessWidget {
-  KhqrWidget({
+class KhqrWidget extends StatefulWidget {
+  const KhqrWidget({
     super.key,
     this.width = 300,
     required this.receiverName,
@@ -17,27 +17,35 @@ class KhqrWidget extends StatelessWidget {
     this.image,
     this.duration = const Duration(minutes: 15),
     this.onRetry,
-  }) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _updateDuration();
-    });
-  }
-
-  double get _aspecRatio => 20 / 29;
+  });
 
   final double width;
-  double get _height => width / _aspecRatio;
-
   final String receiverName;
   final String amount;
   final String currency;
   final String qr;
   final Image? image;
   final Duration? duration;
+  final Function()? onRetry;
+
+  @override
+  State<KhqrWidget> createState() => _KhqrWidgetState();
+}
+
+class _KhqrWidgetState extends State<KhqrWidget> {
+  double get _aspecRatio => 20 / 29;
+  double get _height => widget.width / _aspecRatio;
   Duration? _duration;
   int _durationCount = 0;
   final _durationStream = StreamController<Duration>.broadcast();
-  final Function()? onRetry;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _updateDuration();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +56,15 @@ class KhqrWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: width,
+            width: widget.width,
             height: _height,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(width * 0.12 * _aspecRatio),
+              borderRadius:
+                  BorderRadius.circular(widget.width * 0.12 * _aspecRatio),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withAlpha(20),
-                  blurRadius: width * 0.16 * _aspecRatio,
+                  blurRadius: widget.width * 0.16 * _aspecRatio,
                   offset: const Offset(0, 0), // Shadow position
                 ),
               ],
@@ -65,9 +74,9 @@ class KhqrWidget extends StatelessWidget {
               children: [
                 Container(
                   height: _height * 0.2 * _aspecRatio,
-                  width: width,
+                  width: widget.width,
                   color: const Color.fromRGBO(255, 35, 26, 1),
-                  padding: EdgeInsets.all(width * 0.1 * _aspecRatio),
+                  padding: EdgeInsets.all(widget.width * 0.1 * _aspecRatio),
                   child: const Image(
                     image: AssetImage(
                       "assets/images/KHQR_Logo_white.png",
@@ -77,7 +86,7 @@ class KhqrWidget extends StatelessWidget {
                 ),
                 Expanded(
                   child: Container(
-                    width: width,
+                    width: widget.width,
                     color: const Color.fromRGBO(255, 35, 26, 1),
                     child: ClipPath(
                       clipper: QrHeaderClipper(aspecRatio: _aspecRatio),
@@ -93,15 +102,16 @@ class KhqrWidget extends StatelessWidget {
                             Container(
                               alignment: Alignment.topLeft,
                               padding: EdgeInsets.symmetric(
-                                horizontal: width * 0.2 * _aspecRatio,
+                                horizontal: widget.width * 0.2 * _aspecRatio,
                               ),
                               child: RichText(
                                 textDirection: TextDirection.ltr,
                                 textAlign: TextAlign.left,
                                 text: TextSpan(
-                                  text: receiverName,
+                                  text: widget.receiverName,
                                   style: GoogleFonts.nunitoSans().copyWith(
-                                    fontSize: 0.07 * width * _aspecRatio,
+                                    fontSize: 0.07 * widget.width * _aspecRatio,
+                                    color: Colors.black,
                                   ),
                                 ),
                               ),
@@ -112,7 +122,7 @@ class KhqrWidget extends StatelessWidget {
                             Container(
                               alignment: Alignment.topLeft,
                               padding: EdgeInsets.symmetric(
-                                horizontal: width * 0.2 * _aspecRatio,
+                                horizontal: widget.width * 0.2 * _aspecRatio,
                               ),
                               child: Row(
                                 textDirection: TextDirection.ltr,
@@ -122,15 +132,17 @@ class KhqrWidget extends StatelessWidget {
                                     textDirection: TextDirection.ltr,
                                     textAlign: TextAlign.left,
                                     text: TextSpan(
-                                      text: amount,
+                                      text: widget.amount,
                                       style: GoogleFonts.nunitoSans().copyWith(
-                                        fontSize: 0.15 * width * _aspecRatio,
+                                        fontSize:
+                                            0.15 * widget.width * _aspecRatio,
                                         fontWeight: FontWeight.w600,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ),
                                   SizedBox(
-                                    width: width * 0.03 * _aspecRatio,
+                                    width: widget.width * 0.03 * _aspecRatio,
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(
@@ -140,11 +152,13 @@ class KhqrWidget extends StatelessWidget {
                                       textDirection: TextDirection.ltr,
                                       textAlign: TextAlign.left,
                                       text: TextSpan(
-                                        text: currency,
-                                        style:
-                                            GoogleFonts.nunitoSans().copyWith(
-                                          fontSize: 0.07 * width * _aspecRatio,
-                                        ),
+                                        text: widget.currency,
+                                        style: GoogleFonts.nunitoSans()
+                                            .copyWith(
+                                                fontSize: 0.07 *
+                                                    widget.width *
+                                                    _aspecRatio,
+                                                color: Colors.black),
                                       ),
                                     ),
                                   ),
@@ -158,7 +172,7 @@ class KhqrWidget extends StatelessWidget {
                               painter: DashedLineHorizontalPainter(
                                 aspecRatio: _aspecRatio,
                               ),
-                              size: Size(width, 1),
+                              size: Size(widget.width, 1),
                             ),
                             Expanded(
                               child: Center(
@@ -170,18 +184,19 @@ class KhqrWidget extends StatelessWidget {
                                     builder: (context, snapshot) {
                                       final data = snapshot.data;
                                       return (data?.inSeconds ?? 0) > 0
-                                          ? QrImage(
+                                          ? QrImageView(
                                               padding: const EdgeInsets.all(0),
-                                              data: qr,
+                                              data: widget.qr,
                                               version: QrVersions.auto,
                                               backgroundColor: Colors.white,
-                                              embeddedImage: image?.image,
+                                              embeddedImage:
+                                                  widget.image?.image,
                                             )
                                           : MouseRegion(
                                               cursor: SystemMouseCursors.click,
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  onRetry?.call();
+                                                  widget.onRetry?.call();
                                                   _updateDuration();
                                                 },
                                                 child: const Icon(
@@ -204,11 +219,11 @@ class KhqrWidget extends StatelessWidget {
               ],
             ),
           ),
-          if (duration != null)
+          if (widget.duration != null)
             SizedBox(
               height: _height * 0.07 * _aspecRatio,
             ),
-          if (duration != null)
+          if (widget.duration != null)
             StreamBuilder<Duration>(
               stream: _durationStream.stream,
               builder: (context, snapshot) => RichText(
@@ -218,7 +233,7 @@ class KhqrWidget extends StatelessWidget {
                   text:
                       "QR expired in: ${_duration?.inMinutes.remainder(60).toString().padLeft(1, '0')}:${_duration?.inSeconds.remainder(60).toString().padLeft(2, '0')}",
                   style: GoogleFonts.nunitoSans().copyWith(
-                    fontSize: 0.07 * width * _aspecRatio,
+                    fontSize: 0.07 * widget.width * _aspecRatio,
                     color: Colors.black54,
                   ),
                 ),
@@ -230,16 +245,18 @@ class KhqrWidget extends StatelessWidget {
   }
 
   void _updateDuration() {
-    if (duration == null) return;
-    _duration = duration;
+    if (widget.duration == null) return;
+    _duration = widget.duration;
     _durationCount = 0;
     Future.microtask(() async {
       while (_duration!.inSeconds > 0) {
-        _duration = Duration(seconds: duration!.inSeconds - _durationCount);
+        _duration =
+            Duration(seconds: widget.duration!.inSeconds - _durationCount);
         log("Duration: ${_duration!.inSeconds}");
         _durationStream.sink.add(_duration!);
         await Future.delayed(const Duration(seconds: 1));
         _durationCount += 1;
+        if (!mounted) break;
       }
     });
   }

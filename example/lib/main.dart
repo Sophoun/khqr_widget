@@ -70,12 +70,14 @@ class KhqrStandWidgetDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: KhqrStandWidget(
-        logo: Image.asset("assets/cambify.png"),
-        qrData: "YOUR_QR_DATA",
-        name: "John Due",
-        bakongId: "yourbakong@id",
-        qrIcon: Image.asset("assets/dolar_symbol.png"),
+      body: Center(
+        child: KhqrStandWidget(
+          logo: Image.asset("assets/cambify.png"),
+          qrData: "YOUR_QR_DATA",
+          name: "John Due",
+          bakongId: "yourbakong@id",
+          qrIcon: Image.asset("assets/dolar_symbol.png"),
+        ),
       ),
     );
   }
