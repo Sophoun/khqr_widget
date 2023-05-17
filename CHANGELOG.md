@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Fix QrWidget not show with incorrect color.
+
 ## 1.0.2
 
 * Update docs.
