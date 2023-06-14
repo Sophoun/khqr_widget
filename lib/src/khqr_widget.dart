@@ -14,8 +14,8 @@ class KhqrWidget extends StatefulWidget {
     required this.amount,
     required this.currency,
     required this.qr,
-    this.image,
-    this.duration = const Duration(minutes: 15),
+    this.qrIcon,
+    this.duration,
     this.onRetry,
   });
 
@@ -24,7 +24,7 @@ class KhqrWidget extends StatefulWidget {
   final String amount;
   final String currency;
   final String qr;
-  final Image? image;
+  final Image? qrIcon;
   final Duration? duration;
   final Function()? onRetry;
 
@@ -34,7 +34,7 @@ class KhqrWidget extends StatefulWidget {
 
 class _KhqrWidgetState extends State<KhqrWidget> {
   double get _aspecRatio => 20 / 29;
-  double get _height => widget.width / _aspecRatio;
+  double get _height => (widget.width / _aspecRatio) - 15;
   Duration? _duration;
   int _durationCount = 0;
   final _durationStream = StreamController<Duration>.broadcast();
@@ -56,7 +56,7 @@ class _KhqrWidgetState extends State<KhqrWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: widget.width,
+            width: widget.width - 30,
             height: _height,
             decoration: BoxDecoration(
               borderRadius:
@@ -146,7 +146,7 @@ class _KhqrWidgetState extends State<KhqrWidget> {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(
-                                      bottom: _height * 0.03 * _aspecRatio,
+                                      bottom: _height * 0.018 * _aspecRatio,
                                     ),
                                     child: RichText(
                                       textDirection: TextDirection.ltr,
@@ -190,7 +190,7 @@ class _KhqrWidgetState extends State<KhqrWidget> {
                                               version: QrVersions.auto,
                                               backgroundColor: Colors.white,
                                               embeddedImage:
-                                                  widget.image?.image,
+                                                  widget.qrIcon?.image,
                                             )
                                           : MouseRegion(
                                               cursor: SystemMouseCursors.click,

@@ -1,35 +1,40 @@
+## 1.0.4
+
+- Set null able to `KhqrWidget` `duration` property.
+- Change `image` property to `qrIcon` in `KhqrWidget`.
+
 ## 1.0.3
 
-* Fix QrWidget not show with incorrect color.
+- Fix QrWidget not show with incorrect color.
 
 ## 1.0.2
 
-* Update docs.
+- Update docs.
 
 ## 1.0.1
 
-* Chnage package name from `khqr` to `khqr_widget`, to prevent conflict with KHQR branding.
+- Chnage package name from `khqr` to `khqr_widget`, to prevent conflict with KHQR branding.
 
 ## 1.0.0
 
-* Add `KhqrStandWidget` and fix bugs on `KhqrWidget` that missing assets.
+- Add `KhqrStandWidget` and fix bugs on `KhqrWidget` that missing assets.
 
 ## 0.0.5
 
-* Update example.
+- Update example.
 
 ## 0.0.4
 
-* Add screenshot to support `pub.dev` preview.
+- Add screenshot to support `pub.dev` preview.
 
 ## 0.0.3
 
-* Rename widget name from `KhqrQrPreviewWidget` to `KhqrWidget`.
+- Rename widget name from `KhqrQrPreviewWidget` to `KhqrWidget`.
 
 ## 0.0.2
 
-* Revise publisher
+- Revise publisher
 
 ## 0.0.1
 
-* First release
+- First release
