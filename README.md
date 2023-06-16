@@ -39,7 +39,7 @@ KhqrWidget(
   amount: "25.00"
   currency: "USD",
   qr: "your-qr-string",
-  image: Image.asset(
+  qrIcon: Image.asset(
      "assets/images/logo.png",
   ),
   duration: Duration(minutes: 3),

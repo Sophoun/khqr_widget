@@ -1,3 +1,8 @@
+## 1.0.5
+
+- Add `shadowColor` to `KhqrWidget`.
+- Fixed: do not show retry icon if `duration` property is null.
+
 ## 1.0.4
 
 - Set null able to `KhqrWidget` `duration` property.

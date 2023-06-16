@@ -17,6 +17,7 @@ class KhqrWidget extends StatefulWidget {
     this.qrIcon,
     this.duration,
     this.onRetry,
+    this.shadowColor,
   });
 
   final double width;
@@ -27,6 +28,7 @@ class KhqrWidget extends StatefulWidget {
   final Image? qrIcon;
   final Duration? duration;
   final Function()? onRetry;
+  final Color? shadowColor;
 
   @override
   State<KhqrWidget> createState() => _KhqrWidgetState();
@@ -63,7 +65,7 @@ class _KhqrWidgetState extends State<KhqrWidget> {
                   BorderRadius.circular(widget.width * 0.12 * _aspecRatio),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withAlpha(20),
+                  color: widget.shadowColor ?? Colors.black.withAlpha(20),
                   blurRadius: widget.width * 0.16 * _aspecRatio,
                   offset: const Offset(0, 0), // Shadow position
                 ),
@@ -146,7 +148,7 @@ class _KhqrWidgetState extends State<KhqrWidget> {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(
-                                      bottom: _height * 0.018 * _aspecRatio,
+                                      bottom: _height * 0.02 * _aspecRatio,
                                     ),
                                     child: RichText(
                                       textDirection: TextDirection.ltr,
@@ -183,7 +185,7 @@ class _KhqrWidgetState extends State<KhqrWidget> {
                                     stream: _durationStream.stream,
                                     builder: (context, snapshot) {
                                       final data = snapshot.data;
-                                      return (data?.inSeconds ?? 0) > 0
+                                      return data == null || data.inSeconds > 0
                                           ? QrImageView(
                                               padding: const EdgeInsets.all(0),
                                               data: widget.qr,
