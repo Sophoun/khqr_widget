@@ -51,10 +51,11 @@ class KhqrWidgetDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    return Scaffold(
+      appBar: AppBar(),
+      body: const Center(
         child: KhqrWidget(
-          receiverName: "receiverName",
+          receiverName: "receiverName receiverName ",
           amount: "12.23",
           currency: "USD",
           qr: "YOUR_QR_DATA",
@@ -70,6 +71,7 @@ class KhqrStandWidgetDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
         child: KhqrStandWidget(
           logo: Image.asset("assets/cambify.png"),

@@ -70,7 +70,9 @@ class KhqrStandWidget extends StatelessWidget {
                 right: constraints.minWidth * 0.1 * aspecRatio,
                 child: Text(
                   name,
+                  maxLines: 1,
                   textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: constraints.minWidth * 0.08 * aspecRatio,

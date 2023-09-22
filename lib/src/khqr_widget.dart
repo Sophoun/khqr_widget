@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -106,15 +107,17 @@ class _KhqrWidgetState extends State<KhqrWidget> {
                               padding: EdgeInsets.symmetric(
                                 horizontal: widget.width * 0.2 * _aspecRatio,
                               ),
-                              child: RichText(
+                              child: AutoSizeText(
+                                widget.receiverName,
                                 textDirection: TextDirection.ltr,
                                 textAlign: TextAlign.left,
-                                text: TextSpan(
-                                  text: widget.receiverName,
-                                  style: GoogleFonts.nunitoSans().copyWith(
-                                    fontSize: 0.07 * widget.width * _aspecRatio,
-                                    color: Colors.black,
-                                  ),
+                                maxLines: 1,
+                                maxFontSize: 14,
+                                minFontSize: 8,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.nunitoSans().copyWith(
+                                  fontSize: 0.07 * widget.width * _aspecRatio,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),
