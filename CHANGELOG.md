@@ -1,3 +1,8 @@
+## 1.0.6
+
+- Support `AutoTextSize` for `KhqrWidget`.
+- Limit maxline 1 and text overflow ellipsis to `KhqrStandWidget`.
+
 ## 1.0.5
 
 - Add `shadowColor` to `KhqrWidget`.
