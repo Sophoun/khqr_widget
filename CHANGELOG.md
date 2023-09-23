@@ -1,3 +1,7 @@
+## 1.0.7
+
+- Close steaming on `KhqrWidget`.
+
 ## 1.0.6
 
 - Support `AutoTextSize` for `KhqrWidget`.
