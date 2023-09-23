@@ -51,6 +51,12 @@ class _KhqrWidgetState extends State<KhqrWidget> {
   }
 
   @override
+  void dispose() {
+    _durationStream.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
