@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "khqr_widget_test",
+      "name": "khqr_widget_mac",
       "request": "launch",
       "type": "dart",
       "args": [
@@ -13,6 +13,17 @@
         "../example/lib/main.dart",
         "-d",
         "macos"
+      ]
+    },
+    {
+      "name": "khqr_widget_windows",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "-t",
+        "../example/lib/main.dart",
+        "-d",
+        "windows"
       ]
     },
   ]
