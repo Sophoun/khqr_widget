@@ -53,12 +53,35 @@ class KhqrWidgetDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const Center(
+      body: Center(
         child: KhqrWidget(
           receiverName: "receiverName receiverName ",
           amount: "12.23",
           currency: "USD",
           qr: "YOUR_QR_DATA",
+          qrIcon: Image.asset(
+            "assets/cambify.png",
+          ),
+          duration: const Duration(minutes: 3),
+          clearAmountIcon: const Icon(
+            Icons.clear_rounded,
+            color: Colors.black,
+          ),
+          expiredIcon: Container(
+            constraints: const BoxConstraints.expand(),
+            color: Colors.green,
+            child: const Icon(
+              Icons.clear,
+            ),
+          ),
+          onCountingDown: (p0) => Container(
+            padding: const EdgeInsets.all(3),
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Text(p0.inSeconds.toString()),
+          ),
         ),
       ),
     );

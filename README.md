@@ -36,16 +36,35 @@ dependencies:
 KhqrWidget(
   width: 300,
   receiverName: "Cambify",
-  amount: "25.00"
+  amount: "25.00",
   currency: "USD",
-  qr: "your-qr-string",
+  qr: "YOUR_QR_DATA",
   qrIcon: Image.asset(
      "assets/images/logo.png",
   ),
-  duration: Duration(minutes: 3),
+  duration: const Duration(minutes: 3),
   onRetry: () => {
     // TODO()
   },
+  clearAmountIcon: const Icon(
+    Icons.clear_rounded,
+    color: Colors.black,
+  ),
+  expiredIcon: Container(
+    constraints: const BoxConstraints.expand(),
+    color: Colors.green,
+    child: const Icon(
+      Icons.clear,
+    ),
+  ),
+  onCountingDown: (p0) => Container(
+    padding: const EdgeInsets.all(3),
+    decoration: BoxDecoration(
+      color: Colors.green,
+      borderRadius: BorderRadius.circular(5),
+    ),
+    child: Text(p0.inSeconds.toString()),
+  ),
 ),
 ```
 

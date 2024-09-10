@@ -1,6 +1,6 @@
 name: khqr_widget
 description: Khqr_widget help you crate a standard KHQR preview in your app without any efforts.
-version: 1.0.7
+version: 1.0.8
 homepage: https://github.com/sophoun/khqr_widget
 
 environment:
@@ -18,7 +18,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
 
 screenshots:
  - description: 'KhqrWidget preview'

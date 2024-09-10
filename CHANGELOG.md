@@ -1,3 +1,10 @@
+## 1.0.8
+
+- Provide more customization to `KhqrWidget`.
+- Allow override `clearAmountIcon`
+- Allow override `expiredIcon`
+- Allow override `onCountingDown`
+
 ## 1.0.7
 
 - Close steaming on `KhqrWidget`.

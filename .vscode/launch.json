@@ -12,7 +12,7 @@
         "-t",
         "../example/lib/main.dart",
         "-d",
-        "macos"
+        "linux"
       ]
     },
     {
