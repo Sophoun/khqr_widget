@@ -5,6 +5,10 @@
 - Allow override `expiredIcon`
 - Allow override `onCountingDown`
 
+##
+
+- Allow user to hide QR when they're pass null to `qr` param.
+
 ## 1.0.7
 
 - Close steaming on `KhqrWidget`.

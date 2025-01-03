@@ -12,6 +12,17 @@
         "-t",
         "../example/lib/main.dart",
         "-d",
+        "macos"
+      ]
+    },
+    {
+      "name": "khqr_widget_linux",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "-t",
+        "../example/lib/main.dart",
+        "-d",
         "linux"
       ]
     },

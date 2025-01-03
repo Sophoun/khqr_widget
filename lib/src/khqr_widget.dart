@@ -28,7 +28,7 @@ class KhqrWidget extends StatefulWidget {
   final String receiverName;
   final String amount;
   final String currency;
-  final String qr;
+  final String? qr;
   final Image? qrIcon;
   final Duration? duration;
   final Function()? onRetry;
@@ -205,15 +205,16 @@ class _KhqrWidgetState extends State<KhqrWidget> {
                                           final data = snapshot.data;
                                           return Stack(
                                             children: [
-                                              QrImageView(
-                                                padding:
-                                                    const EdgeInsets.all(0),
-                                                data: widget.qr,
-                                                version: QrVersions.auto,
-                                                backgroundColor: Colors.white,
-                                                embeddedImage:
-                                                    widget.qrIcon?.image,
-                                              ),
+                                              if (widget.qr != null)
+                                                QrImageView(
+                                                  padding:
+                                                      const EdgeInsets.all(0),
+                                                  data: widget.qr!,
+                                                  version: QrVersions.auto,
+                                                  backgroundColor: Colors.white,
+                                                  embeddedImage:
+                                                      widget.qrIcon?.image,
+                                                ),
                                               if ((data?.inSeconds ?? 0) <= 0)
                                                 widget.expiredIcon != null
                                                     ? Container(

@@ -62,14 +62,17 @@ class KhqrWidgetDemo extends StatelessWidget {
           qrIcon: Image.asset(
             "assets/cambify.png",
           ),
-          duration: const Duration(minutes: 3),
+          duration: const Duration(seconds: 3),
           clearAmountIcon: const Icon(
             Icons.clear_rounded,
             color: Colors.black,
           ),
           expiredIcon: Container(
             constraints: const BoxConstraints.expand(),
-            color: Colors.green,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(0),
+            ),
             child: const Icon(
               Icons.clear,
             ),
