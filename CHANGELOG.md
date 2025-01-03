@@ -1,13 +1,13 @@
+## 1.0.9
+
+- Allow user to hide QR when they're pass null to `qr` param.
+
 ## 1.0.8
 
 - Provide more customization to `KhqrWidget`.
 - Allow override `clearAmountIcon`
 - Allow override `expiredIcon`
 - Allow override `onCountingDown`
-
-##
-
-- Allow user to hide QR when they're pass null to `qr` param.
 
 ## 1.0.7
 
