@@ -1,3 +1,7 @@
+## 1.1.3
+
+- Bug fix due to qr center image wasn't show up.
+
 ## 1.1.2
 
 - Bug fix due to unhandle qr data null.

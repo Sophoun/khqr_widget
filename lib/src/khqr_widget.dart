@@ -165,6 +165,7 @@ class _KhqrWidgetState extends State<KhqrWidget> {
                                       constraints.maxWidth * 1.1 * _aspecRatio,
                                   data: widget.qr!,
                                   padding: widget.qrPadding,
+                                  embeddedImage: widget.qrIcon?.image,
                                 )
                               else
                                 SizedBox(

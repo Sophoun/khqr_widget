@@ -61,7 +61,7 @@ class KhqrWidgetDemo extends StatelessWidget {
       body: Center(
         child: StatefulBuilder(
           builder: (context, setState) => KhqrWidget(
-            width: 500,
+            width: 300,
             receiverName: "Cambify LTD by John Due ",
             amount: "12.23",
             currency: "USD",
