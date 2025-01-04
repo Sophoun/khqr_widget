@@ -1,3 +1,7 @@
+## 1.1.1
+
+-- Revise design of Dynamic KHQR.
+
 ## 1.1.0
 
 - Allow user to add padding to QR data with param `qrPadding`.

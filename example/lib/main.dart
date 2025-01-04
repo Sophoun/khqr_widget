@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:khqr_widget/khqr_widget.dart';
 
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
                 tileColor: Colors.grey.shade200,
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const KhqrWidgetDemo(),
+                    builder: (context) => KhqrWidgetDemo(),
                   ));
                 },
               ),
@@ -46,45 +48,56 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class KhqrWidgetDemo extends StatelessWidget {
-  const KhqrWidgetDemo({super.key});
+  KhqrWidgetDemo({super.key});
+
+  String qrData = "YOUR_QR_DATA";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: KhqrWidget(
-          receiverName: "receiverName receiverName ",
-          amount: "12.23",
-          currency: "USD",
-          qrPadding: const EdgeInsets.all(12),
-          qr: "YOUR_QR_DATA",
-          qrIcon: Image.asset(
-            "assets/cambify.png",
-          ),
-          duration: const Duration(seconds: 3),
-          clearAmountIcon: const Icon(
-            Icons.clear_rounded,
-            color: Colors.black,
-          ),
-          expiredIcon: Container(
-            constraints: const BoxConstraints.expand(),
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(0),
+        child: StatefulBuilder(
+          builder: (context, setState) => KhqrWidget(
+            width: 500,
+            receiverName: "Cambify LTD by John Due ",
+            amount: "12.23",
+            currency: "USD",
+            qr: qrData,
+            qrIcon: Image.asset(
+              "assets/cambify.png",
             ),
-            child: const Icon(
-              Icons.clear,
+            duration: const Duration(seconds: 3),
+            clearAmountIcon: const Icon(
+              size: 12,
+              Icons.clear_rounded,
+              color: Colors.black,
             ),
-          ),
-          onCountingDown: (p0) => Container(
-            padding: const EdgeInsets.all(3),
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(5),
+            expiredIcon: Container(
+              constraints: const BoxConstraints.expand(),
+              decoration: BoxDecoration(
+                color: Colors.green.withAlpha(150),
+                borderRadius: BorderRadius.circular(0),
+              ),
+              child: const Icon(
+                Icons.clear,
+              ),
             ),
-            child: Text(p0.inSeconds.toString()),
+            onRetry: () {
+              setState(() {
+                qrData = "${Random().nextInt(100)}";
+              });
+            },
+            onCountingDown: (p0) => Container(
+              padding: const EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Text(p0.inSeconds.toString()),
+            ),
           ),
         ),
       ),

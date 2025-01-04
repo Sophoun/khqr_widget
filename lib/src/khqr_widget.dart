@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -10,7 +11,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 class KhqrWidget extends StatefulWidget {
   const KhqrWidget({
     super.key,
-    this.width = 300,
+    this.width = 280,
     required this.receiverName,
     required this.amount,
     required this.currency,
@@ -22,7 +23,7 @@ class KhqrWidget extends StatefulWidget {
     this.clearAmountIcon,
     this.expiredIcon,
     this.onCountingDown,
-    this.qrPadding = const EdgeInsets.all(0),
+    this.qrPadding = const EdgeInsets.all(4),
   });
 
   final double width;
@@ -66,243 +67,163 @@ class _KhqrWidgetState extends State<KhqrWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: widget.width - 25,
-            height: _height,
-            decoration: BoxDecoration(
-              borderRadius:
-                  BorderRadius.circular(widget.width * 0.12 * _aspecRatio),
-              boxShadow: [
-                BoxShadow(
-                  color: widget.shadowColor ?? Colors.black.withAlpha(20),
-                  blurRadius: widget.width * 0.16 * _aspecRatio,
-                  offset: const Offset(0, 0), // Shadow position
-                ),
-              ],
-            ),
-            clipBehavior: Clip.hardEdge,
-            child: Column(
-              children: [
-                Container(
-                  height: _height * 0.15 * _aspecRatio,
-                  width: widget.width,
-                  color: const Color.fromRGBO(255, 35, 26, 1),
-                  padding: EdgeInsets.all(widget.width * 0.07 * _aspecRatio),
-                  child: const Image(
-                    image: AssetImage(
-                      "assets/images/KHQR_Logo_white.png",
-                      package: "khqr_widget",
+    return Container(
+      width: widget.width * 0.8 * _aspecRatio,
+      height: _height * 0.8 * _aspecRatio,
+      color: Colors.transparent,
+      child: AspectRatio(
+        aspectRatio: _aspecRatio,
+        child: LayoutBuilder(
+          builder: (context, constraints) => Stack(
+            children: [
+              SizedBox(
+                child: SvgPicture.string(khqrBackgroundSvgStr),
+              ),
+              Container(
+                padding: EdgeInsets.only(
+                    left: constraints.minHeight * 0.08 * _aspecRatio,
+                    top: constraints.minHeight * 0.03 * _aspecRatio,
+                    right: constraints.minHeight * 0.08 * _aspecRatio,
+                    bottom: constraints.minHeight * 0.03 * _aspecRatio),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    /// receiver name
+                    SizedBox(
+                      height: constraints.minHeight * 0.15 * _aspecRatio,
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: widget.width,
-                    color: const Color.fromRGBO(255, 35, 26, 1),
-                    child: ClipPath(
-                      clipper: QrHeaderClipper(aspecRatio: _aspecRatio),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
+                    Row(
+                      children: [
+                        AutoSizeText(
+                          widget.receiverName,
+                          maxLines: 1,
+                          minFontSize: 8,
+                          maxFontSize: 12,
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.roboto(
+                            fontSize: 24 * _aspecRatio,
+                          ),
                         ),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: _height * 0.05 * _aspecRatio,
-                            ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: widget.width * 0.1 * _aspecRatio,
+                      ],
+                    ),
+
+                    /// Amount and currency
+                    SizedBox(
+                      height: constraints.minHeight * 0.03 * _aspecRatio,
+                    ),
+                    Row(
+                      spacing: constraints.minHeight * 0.03 * _aspecRatio,
+                      textBaseline: TextBaseline.alphabetic,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        /// Amount
+                        AutoSizeText(
+                          widget.amount,
+                          maxLines: 1,
+                          minFontSize: 8,
+                          maxFontSize: 22,
+                          style: GoogleFonts.roboto(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 42 * _aspecRatio,
+                          ),
+                        ),
+
+                        /// Currency
+                        AutoSizeText(
+                          widget.currency,
+                          maxLines: 1,
+                          minFontSize: 8,
+                          maxFontSize: 12,
+                          style: GoogleFonts.roboto(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 22 * _aspecRatio,
+                          ),
+                        ),
+                        const Spacer(),
+
+                        /// Clear amount
+                        if (widget.clearAmountIcon != null)
+                          widget.clearAmountIcon!,
+                      ],
+                    ),
+
+                    /// QR
+                    SizedBox(
+                      height: constraints.minHeight * 0.1 * _aspecRatio,
+                    ),
+                    StreamBuilder<Duration>(
+                        stream: _durationStream.stream,
+                        builder: (context, snapshot) {
+                          return Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              /// QR data to show
+                              QrImageView(
+                                size: constraints.maxWidth * 1.1 * _aspecRatio,
+                                data: widget.qr!,
+                                padding: widget.qrPadding,
                               ),
-                              child: AutoSizeText(
-                                widget.receiverName,
-                                textDirection: TextDirection.ltr,
-                                textAlign: TextAlign.left,
-                                maxLines: 1,
-                                maxFontSize: 14,
-                                minFontSize: 8,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.nunitoSans().copyWith(
-                                  fontSize: 0.07 * widget.width * _aspecRatio,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: _height * 0.005 * _aspecRatio,
-                            ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: widget.width * 0.1 * _aspecRatio,
-                              ),
-                              child: Row(
-                                textDirection: TextDirection.ltr,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  RichText(
-                                    textDirection: TextDirection.ltr,
-                                    textAlign: TextAlign.left,
-                                    text: TextSpan(
-                                      text: widget.amount,
-                                      style: GoogleFonts.nunitoSans().copyWith(
-                                        fontSize:
-                                            0.15 * widget.width * _aspecRatio,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: widget.width * 0.03 * _aspecRatio,
-                                  ),
-                                  RichText(
-                                    textDirection: TextDirection.ltr,
-                                    textAlign: TextAlign.left,
-                                    text: TextSpan(
-                                      text: widget.currency,
-                                      style: GoogleFonts.nunitoSans().copyWith(
-                                        fontSize:
-                                            0.07 * widget.width * _aspecRatio,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  if (widget.clearAmountIcon != null)
-                                    widget.clearAmountIcon!
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: _height * 0.03 * _aspecRatio,
-                            ),
-                            CustomPaint(
-                              painter: DashedLineHorizontalPainter(
-                                aspecRatio: _aspecRatio,
-                              ),
-                              size: Size(widget.width, 1),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: _height * 0.06 * _aspecRatio),
-                                    child: SizedBox(
-                                      width: _height * 0.78 * _aspecRatio,
-                                      height: _height * 0.78 * _aspecRatio,
-                                      child: StreamBuilder<Duration>(
-                                        stream: _durationStream.stream,
-                                        builder: (context, snapshot) {
-                                          final data = snapshot.data;
-                                          return Stack(
-                                            children: [
-                                              if (widget.qr != null)
-                                                QrImageView(
-                                                  padding: widget.qrPadding,
-                                                  data: widget.qr!,
-                                                  version: QrVersions.auto,
-                                                  backgroundColor: Colors.white,
-                                                  embeddedImage:
-                                                      widget.qrIcon?.image,
-                                                ),
-                                              if ((data?.inSeconds ?? 0) <= 0)
-                                                widget.expiredIcon != null
-                                                    ? Container(
-                                                        constraints:
-                                                            const BoxConstraints
-                                                                .expand(),
-                                                        child: GestureDetector(
-                                                          onTap: () {
-                                                            widget.onRetry
-                                                                ?.call();
-                                                            _updateDuration();
-                                                          },
-                                                          child: widget
-                                                              .expiredIcon!,
-                                                        ),
-                                                      )
-                                                    : Container(
-                                                        color: Colors.black
-                                                            .withAlpha(230),
-                                                        constraints:
-                                                            const BoxConstraints
-                                                                .expand(),
-                                                        child: MouseRegion(
-                                                          cursor:
-                                                              SystemMouseCursors
-                                                                  .click,
-                                                          child:
-                                                              GestureDetector(
-                                                            onTap: () {},
-                                                            child: const Icon(
-                                                              Icons
-                                                                  .restart_alt_rounded,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 50,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                            ],
-                                          );
+
+                              /// Expired icon
+                              if (snapshot.data?.inSeconds == 0 &&
+                                  widget.expiredIcon != null)
+                                SizedBox(
+                                    width: constraints.maxWidth *
+                                        1.1 *
+                                        _aspecRatio,
+                                    height: constraints.maxWidth *
+                                        1.1 *
+                                        _aspecRatio,
+                                    child: GestureDetector(
+                                        onTap: () {
+                                          _updateDuration();
+                                          widget.onRetry?.call();
                                         },
-                                      ),
-                                    ),
-                                  ),
-                                  if (widget.duration != null)
-                                    SizedBox(
-                                      height: _height * 0.05 * _aspecRatio,
-                                    ),
-                                  if (widget.duration != null)
-                                    StreamBuilder<Duration>(
-                                      stream: _durationStream.stream,
-                                      builder: (context, snapshot) => widget
-                                                  .onCountingDown !=
-                                              null
-                                          ? widget.onCountingDown!(
-                                              snapshot.data ??
-                                                  const Duration(seconds: 0))
-                                          : RichText(
-                                              textDirection: TextDirection.ltr,
-                                              textAlign: TextAlign.left,
-                                              text: TextSpan(
-                                                text:
-                                                    "QR expired in: ${_duration?.inMinutes.remainder(60).toString().padLeft(1, '0')}:${_duration?.inSeconds.remainder(60).toString().padLeft(2, '0')}",
-                                                style: GoogleFonts.nunitoSans()
-                                                    .copyWith(
-                                                  fontSize: 0.07 *
-                                                      widget.width *
-                                                      _aspecRatio,
-                                                  color: Colors.black54,
-                                                ),
-                                              ),
-                                            ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                                        child: widget.expiredIcon!)),
+                            ],
+                          );
+                        }),
+
+                    /// Counting down
+                    SizedBox(
+                      height: constraints.maxWidth * 0.05 * _aspecRatio,
                     ),
-                  ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: StreamBuilder<Duration>(
+                            stream: _durationStream.stream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return widget.onCountingDown != null
+                                    ? widget.onCountingDown!(snapshot.data!)
+                                    : AutoSizeText(
+                                        "Expired in ${snapshot.data!.inSeconds} seconds",
+                                        maxLines: 1,
+                                        minFontSize: 8,
+                                        maxFontSize: 12,
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 12 * _aspecRatio,
+                                        ),
+                                      );
+                              } else {
+                                return Container();
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-              ],
-            ),
+              )
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -377,3 +298,18 @@ class QrHeaderClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
+
+String get khqrBackgroundSvgStr => """
+<svg width="283" height="420" viewBox="0 0 283 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="1" width="281" height="420" rx="20" fill="white"/>
+<path d="M281.716 39.0078H258.688L281.716 61.9974V39.0078Z" fill="#E21A1A"/>
+<path d="M1.28906 20C1.28906 8.9543 10.2434 0 21.2891 0H261.711C272.757 0 281.711 8.9543 281.711 20V39.0153H1.28906V20Z" fill="#E21A1A"/>
+<path d="M149.581 17.8479V21.9761H145.523C145.117 21.9761 144.812 21.6665 144.812 21.2536V17.8479C144.812 17.435 145.117 17.1254 145.523 17.1254H148.769C149.277 17.0222 149.581 17.435 149.581 17.8479Z" fill="white"/>
+<path d="M168.447 19.5019H166.418C166.418 17.025 164.491 15.0641 162.056 15.0641C160.128 15.0641 158.505 16.3025 157.896 18.1602C157.795 18.5731 157.693 19.0891 157.693 19.5019V26.0038H157.592C156.476 26.0038 155.664 25.075 155.664 24.0429V19.5019C155.664 17.7474 156.374 15.9929 157.693 14.7545C158.911 13.6192 160.433 13 162.056 13C165.606 13 168.447 15.8898 168.447 19.5019Z" fill="white"/>
+<path d="M168.438 26.0081H165.597L164.887 25.2857L163.365 23.7376L161.234 21.5703H164.075L168.438 26.0081Z" fill="white"/>
+<path d="M150.295 23.9397H144.208C143.497 23.9397 142.889 23.3205 142.889 22.5981V16.4058C142.889 15.6833 143.497 15.0641 144.208 15.0641H150.295C151.005 15.0641 151.614 15.6833 151.614 16.4058V22.5981L153.643 24.6621V14.9609C153.643 13.8256 152.729 13 151.715 13H142.889C141.772 13 140.961 13.9288 140.961 14.9609V23.9397C140.961 25.075 141.874 25.9006 142.889 25.9006H152.324L150.295 23.9397Z" fill="white"/>
+<path d="M125.629 26.0038H122.788L116.904 19.9148V26.0038H114.57V13H116.904V18.7795L122.586 13H125.324L119.237 19.1923L125.629 26.0038Z" fill="white"/>
+<path d="M136.287 13H138.52V26.0038H136.287V20.3275H129.794V26.0038H127.461V13H129.794V18.4698H136.287V13Z" fill="white"/>
+<path d="M1 124.07H282" stroke="black" stroke-opacity="0.5" stroke-linecap="square" stroke-linejoin="round" stroke-dasharray="8 8"/>
+</svg>
+""";
