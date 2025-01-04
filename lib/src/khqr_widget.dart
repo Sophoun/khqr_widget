@@ -22,6 +22,7 @@ class KhqrWidget extends StatefulWidget {
     this.clearAmountIcon,
     this.expiredIcon,
     this.onCountingDown,
+    this.qrPadding = const EdgeInsets.all(0),
   });
 
   final double width;
@@ -36,6 +37,7 @@ class KhqrWidget extends StatefulWidget {
   final Widget? clearAmountIcon;
   final Widget? expiredIcon;
   final Function(Duration)? onCountingDown;
+  final EdgeInsets qrPadding;
 
   @override
   State<KhqrWidget> createState() => _KhqrWidgetState();
@@ -207,8 +209,7 @@ class _KhqrWidgetState extends State<KhqrWidget> {
                                             children: [
                                               if (widget.qr != null)
                                                 QrImageView(
-                                                  padding:
-                                                      const EdgeInsets.all(0),
+                                                  padding: widget.qrPadding,
                                                   data: widget.qr!,
                                                   version: QrVersions.auto,
                                                   backgroundColor: Colors.white,

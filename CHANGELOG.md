@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Allow user to add padding to QR data with param `qrPadding`.
+
 ## 1.0.9
 
 - Allow user to hide QR when they're pass null to `qr` param.

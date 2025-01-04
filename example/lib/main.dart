@@ -58,6 +58,7 @@ class KhqrWidgetDemo extends StatelessWidget {
           receiverName: "receiverName receiverName ",
           amount: "12.23",
           currency: "USD",
+          qrPadding: const EdgeInsets.all(12),
           qr: "YOUR_QR_DATA",
           qrIcon: Image.asset(
             "assets/cambify.png",
