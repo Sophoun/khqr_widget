@@ -1,6 +1,10 @@
+## 1.1.2
+
+- Bug fix due to unhandle qr data null.
+
 ## 1.1.1
 
--- Revise design of Dynamic KHQR.
+- Revise design of Dynamic KHQR.
 
 ## 1.1.0
 

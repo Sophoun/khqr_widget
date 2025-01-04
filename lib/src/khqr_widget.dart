@@ -159,11 +159,20 @@ class _KhqrWidgetState extends State<KhqrWidget> {
                             alignment: Alignment.center,
                             children: [
                               /// QR data to show
-                              QrImageView(
-                                size: constraints.maxWidth * 1.1 * _aspecRatio,
-                                data: widget.qr!,
-                                padding: widget.qrPadding,
-                              ),
+                              if (widget.qr != null)
+                                QrImageView(
+                                  size:
+                                      constraints.maxWidth * 1.1 * _aspecRatio,
+                                  data: widget.qr!,
+                                  padding: widget.qrPadding,
+                                )
+                              else
+                                SizedBox(
+                                  width:
+                                      constraints.maxWidth * 1.1 * _aspecRatio,
+                                  height:
+                                      constraints.maxWidth * 1.1 * _aspecRatio,
+                                ),
 
                               /// Expired icon
                               if (snapshot.data?.inSeconds == 0 &&
