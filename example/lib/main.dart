@@ -60,43 +60,46 @@ class KhqrWidgetDemo extends StatelessWidget {
       appBar: AppBar(),
       body: Center(
         child: StatefulBuilder(
-          builder: (context, setState) => KhqrWidget(
-            width: 300,
-            receiverName: "Cambify LTD by John Due ",
-            amount: "12.23",
-            currency: "USD",
-            qr: qrData,
-            qrIcon: Image.asset(
-              "assets/cambify.png",
-            ),
-            duration: const Duration(seconds: 3),
-            clearAmountIcon: const Icon(
-              size: 12,
-              Icons.clear_rounded,
-              color: Colors.black,
-            ),
-            expiredIcon: Container(
-              constraints: const BoxConstraints.expand(),
-              decoration: BoxDecoration(
-                color: Colors.green.withAlpha(150),
-                borderRadius: BorderRadius.circular(0),
+          builder: (context, setState) => SizedBox(
+            child: KhqrWidget(
+              // width: 100,
+              // height: 150,
+              receiverName: "Cambify LTD by John Due",
+              amount: "1,222.21",
+              currency: "USD",
+              qr: qrData,
+              qrIcon: Image.asset(
+                "assets/cambify.png",
               ),
-              child: const Icon(
-                Icons.clear,
+              duration: const Duration(seconds: 3),
+              clearAmountIcon: const Icon(
+                size: 12,
+                Icons.clear_rounded,
+                color: Colors.black,
               ),
-            ),
-            onRetry: () {
-              setState(() {
-                qrData = "${Random().nextInt(100)}";
-              });
-            },
-            onCountingDown: (p0) => Container(
-              padding: const EdgeInsets.all(3),
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(5),
+              expiredIcon: Container(
+                constraints: const BoxConstraints.expand(),
+                decoration: BoxDecoration(
+                  color: Colors.green.withAlpha(150),
+                  borderRadius: BorderRadius.circular(0),
+                ),
+                child: const Icon(
+                  Icons.clear,
+                ),
               ),
-              child: Text(p0.inSeconds.toString()),
+              onRetry: () {
+                setState(() {
+                  qrData = "${Random().nextInt(100)}";
+                });
+              },
+              onCountingDown: (p0) => Container(
+                padding: const EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Text(p0.inSeconds.toString()),
+              ),
             ),
           ),
         ),

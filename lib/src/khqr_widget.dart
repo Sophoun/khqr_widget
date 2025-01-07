@@ -1,17 +1,16 @@
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:khqr_widget/src/scale.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 // ignore: must_be_immutable
 class KhqrWidget extends StatefulWidget {
   const KhqrWidget({
     super.key,
-    this.width = 280,
+    this.width = 300,
+    this.height = 450,
     required this.receiverName,
     required this.amount,
     required this.currency,
@@ -19,7 +18,6 @@ class KhqrWidget extends StatefulWidget {
     this.qrIcon,
     this.duration,
     this.onRetry,
-    this.shadowColor,
     this.clearAmountIcon,
     this.expiredIcon,
     this.onCountingDown,
@@ -27,6 +25,7 @@ class KhqrWidget extends StatefulWidget {
   });
 
   final double width;
+  final double height;
   final String receiverName;
   final String amount;
   final String currency;
@@ -34,7 +33,6 @@ class KhqrWidget extends StatefulWidget {
   final Image? qrIcon;
   final Duration? duration;
   final Function()? onRetry;
-  final Color? shadowColor;
   final Widget? clearAmountIcon;
   final Widget? expiredIcon;
   final Function(Duration)? onCountingDown;
@@ -45,8 +43,7 @@ class KhqrWidget extends StatefulWidget {
 }
 
 class _KhqrWidgetState extends State<KhqrWidget> {
-  double get _aspecRatio => 20 / 29;
-  double get _height => (widget.width / _aspecRatio);
+  double get aspecRatio => 20 / 29;
   Duration? _duration;
   int _durationCount = 0;
   final _durationStream = StreamController<Duration>.broadcast();
@@ -54,6 +51,11 @@ class _KhqrWidgetState extends State<KhqrWidget> {
   @override
   void initState() {
     super.initState();
+
+    /// Setup the screen with the device screen [Size] and the [size] you will use.
+    Scale.setupWith(const Size(1080, 1920), Size(widget.width, widget.height));
+
+    /// Update the duration
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _updateDuration();
     });
@@ -61,6 +63,7 @@ class _KhqrWidgetState extends State<KhqrWidget> {
 
   @override
   void dispose() {
+    /// Dispose the duration stream
     _durationStream.close();
     super.dispose();
   }
@@ -68,171 +71,158 @@ class _KhqrWidgetState extends State<KhqrWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.width * 0.8 * _aspecRatio,
-      height: _height * 0.8 * _aspecRatio,
-      color: Colors.transparent,
-      child: AspectRatio(
-        aspectRatio: _aspecRatio,
-        child: LayoutBuilder(
-          builder: (context, constraints) => Stack(
-            children: [
-              SizedBox(
-                child: SvgPicture.string(khqrBackgroundSvgStr),
-              ),
-              Container(
-                padding: EdgeInsets.only(
-                    left: constraints.minHeight * 0.08 * _aspecRatio,
-                    top: constraints.minHeight * 0.03 * _aspecRatio,
-                    right: constraints.minHeight * 0.08 * _aspecRatio,
-                    bottom: constraints.minHeight * 0.03 * _aspecRatio),
-                child: Column(
+      constraints: BoxConstraints(
+        maxWidth: widget.width,
+        maxHeight: widget.height,
+      ),
+      child: LayoutBuilder(
+        builder: (context, constraints) => Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            SvgPicture.string(
+              khqrBackgroundSvgStr,
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fill,
+            ),
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              padding: EdgeInsets.only(
+                  left: constraints.maxWidth * 0.08,
+                  top: constraints.maxHeight * 0.11,
+                  right: constraints.maxWidth * 0.08,
+                  bottom: constraints.maxHeight * 0.0),
+              child: StreamBuilder(
+                stream: _durationStream.stream,
+                builder: (context, snapshot) => Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    /// receiver name
+                    /// Group of Receiver and and Amount
                     SizedBox(
-                      height: constraints.minHeight * 0.15 * _aspecRatio,
-                    ),
-                    Row(
-                      children: [
-                        AutoSizeText(
-                          widget.receiverName,
-                          maxLines: 1,
-                          minFontSize: 8,
-                          maxFontSize: 12,
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.roboto(
-                            fontSize: 24 * _aspecRatio,
+                      width: constraints.maxWidth * 0.9,
+                      height: constraints.maxHeight * 0.15,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FittedBox(
+                            child: Text(
+                              widget.receiverName,
+                              style: TextStyle(
+                                  fontSize: constraints.maxHeight * 0.04),
+                              maxLines: 1,
+                              textAlign: TextAlign.start,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-
-                    /// Amount and currency
-                    SizedBox(
-                      height: constraints.minHeight * 0.03 * _aspecRatio,
-                    ),
-                    Row(
-                      spacing: constraints.minHeight * 0.03 * _aspecRatio,
-                      textBaseline: TextBaseline.alphabetic,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        /// Amount
-                        AutoSizeText(
-                          widget.amount,
-                          maxLines: 1,
-                          minFontSize: 8,
-                          maxFontSize: 22,
-                          style: GoogleFonts.roboto(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 42 * _aspecRatio,
-                          ),
-                        ),
-
-                        /// Currency
-                        AutoSizeText(
-                          widget.currency,
-                          maxLines: 1,
-                          minFontSize: 8,
-                          maxFontSize: 12,
-                          style: GoogleFonts.roboto(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 22 * _aspecRatio,
-                          ),
-                        ),
-                        const Spacer(),
-
-                        /// Clear amount
-                        if (widget.clearAmountIcon != null)
-                          widget.clearAmountIcon!,
-                      ],
-                    ),
-
-                    /// QR
-                    SizedBox(
-                      height: constraints.minHeight * 0.1 * _aspecRatio,
-                    ),
-                    StreamBuilder<Duration>(
-                        stream: _durationStream.stream,
-                        builder: (context, snapshot) {
-                          return Stack(
-                            alignment: Alignment.center,
+                          Row(
+                            spacing: constraints.maxWidth * 0.02,
+                            textBaseline: TextBaseline.alphabetic,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              /// QR data to show
-                              if (widget.qr != null)
-                                QrImageView(
-                                  size:
-                                      constraints.maxWidth * 1.1 * _aspecRatio,
-                                  data: widget.qr!,
-                                  padding: widget.qrPadding,
-                                  embeddedImage: widget.qrIcon?.image,
-                                )
-                              else
-                                SizedBox(
-                                  width:
-                                      constraints.maxWidth * 1.1 * _aspecRatio,
-                                  height:
-                                      constraints.maxWidth * 1.1 * _aspecRatio,
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxWidth: constraints.maxWidth * 0.7,
                                 ),
-
-                              /// Expired icon
-                              if (snapshot.data?.inSeconds == 0 &&
-                                  widget.expiredIcon != null)
-                                SizedBox(
-                                    width: constraints.maxWidth *
-                                        1.1 *
-                                        _aspecRatio,
-                                    height: constraints.maxWidth *
-                                        1.1 *
-                                        _aspecRatio,
-                                    child: GestureDetector(
-                                        onTap: () {
-                                          _updateDuration();
-                                          widget.onRetry?.call();
-                                        },
-                                        child: widget.expiredIcon!)),
-                            ],
-                          );
-                        }),
-
-                    /// Counting down
-                    SizedBox(
-                      height: constraints.maxWidth * 0.05 * _aspecRatio,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Flexible(
-                          child: StreamBuilder<Duration>(
-                            stream: _durationStream.stream,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return widget.onCountingDown != null
-                                    ? widget.onCountingDown!(snapshot.data!)
-                                    : AutoSizeText(
-                                        "Expired in ${snapshot.data!.inSeconds} seconds",
-                                        maxLines: 1,
-                                        minFontSize: 8,
-                                        maxFontSize: 12,
-                                        textAlign: TextAlign.center,
-                                        style: GoogleFonts.roboto(
-                                          fontSize: 12 * _aspecRatio,
+                                child: FittedBox(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    spacing: constraints.maxWidth * 0.03,
+                                    textBaseline: TextBaseline.alphabetic,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.baseline,
+                                    children: [
+                                      Text(
+                                        widget.amount,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: constraints.maxWidth * 0.08,
                                         ),
-                                      );
-                              } else {
-                                return Container();
-                              }
-                            },
+                                        maxLines: 1,
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      Text(
+                                        widget.currency,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: constraints.maxWidth * 0.05,
+                                        ),
+                                        maxLines: 1,
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const Spacer(),
+                              SizedBox(
+                                  width: constraints.maxWidth * 0.1,
+                                  height: constraints.maxWidth * 0.1,
+                                  child: widget.clearAmountIcon ??
+                                      const SizedBox()),
+                            ],
                           ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                        height: constraints.maxHeight *
+                            (widget.onCountingDown != null ? 0.07 : 0.1)),
+
+                    /// Group of QR
+                    Container(
+                      width: constraints.maxWidth * 0.9,
+                      height: constraints.maxHeight * 0.56,
+                      alignment: Alignment.center,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          if (widget.qr != null)
+                            QrImageView(
+                              size: constraints.maxWidth * 0.9,
+                              data: widget.qr!,
+                              padding: widget.qrPadding,
+                              embeddedImage: widget.qrIcon?.image,
+                            ),
+
+                          /// if expired
+                          if (_duration != null &&
+                              snapshot.data?.inSeconds == 0)
+                            SizedBox(
+                              width: constraints.maxWidth * 0.9,
+                              height: constraints.maxHeight * 0.56,
+                              child: GestureDetector(
+                                onTap: () {
+                                  _updateDuration();
+                                  widget.onRetry?.call();
+                                },
+                                child: widget.expiredIcon!,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: constraints.maxHeight * 0.02),
+                    if (_duration != null && widget.onCountingDown != null)
+                      Container(
+                        width: constraints.maxWidth * 0.9,
+                        height: constraints.maxHeight * 0.06,
+                        alignment: Alignment.center,
+                        child: FittedBox(
+                          child: widget
+                              .onCountingDown!(snapshot.data ?? Duration.zero),
                         ),
-                      ],
-                    )
+                      )
                   ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -246,7 +236,6 @@ class _KhqrWidgetState extends State<KhqrWidget> {
       while (_duration!.inSeconds > 0) {
         _duration =
             Duration(seconds: widget.duration!.inSeconds - _durationCount);
-        log("Duration: ${_duration!.inSeconds}");
         _durationStream.sink.add(_duration!);
         await Future.delayed(const Duration(seconds: 1));
         _durationCount += 1;
@@ -254,59 +243,6 @@ class _KhqrWidgetState extends State<KhqrWidget> {
       }
     });
   }
-}
-
-/// [DashedLineHorizontalPainter] help to draw dashed line
-class DashedLineHorizontalPainter extends CustomPainter {
-  DashedLineHorizontalPainter({
-    required this.aspecRatio,
-  });
-
-  final double aspecRatio;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    double dashWidth = size.width * 0.07 * aspecRatio,
-        dashSpace = size.width * 0.04 * aspecRatio,
-        startX = 0;
-    final paint = Paint()
-      ..color = Colors.black
-      ..strokeWidth = 1;
-    while (startX < size.width) {
-      canvas.drawLine(Offset(startX, 0), Offset(startX + dashWidth, 0), paint);
-      startX += dashWidth + dashSpace;
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
-}
-
-/// [QrHeaderClipper] help to clip header
-class QrHeaderClipper extends CustomClipper<Path> {
-  QrHeaderClipper({
-    required this.aspecRatio,
-  });
-
-  final double aspecRatio;
-
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    final width = size.width;
-    final height = size.height;
-
-    path.lineTo(width - width * 0.13 * aspecRatio, 0);
-    path.lineTo(width, height * 0.1 * aspecRatio);
-    path.lineTo(height, 0);
-    path.lineTo(width, height);
-    path.lineTo(0, height);
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
 
 String get khqrBackgroundSvgStr => """
