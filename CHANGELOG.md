@@ -1,3 +1,7 @@
+## 1.1.5
+
+- Increase `receiver` and `amount` font size to match standard.
+
 ## 1.1.4
 
 - Enhance UI scale.

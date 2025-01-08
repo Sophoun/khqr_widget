@@ -113,7 +113,7 @@ class _KhqrWidgetState extends State<KhqrWidget> {
                             child: Text(
                               widget.receiverName,
                               style: TextStyle(
-                                  fontSize: constraints.maxHeight * 0.04),
+                                  fontSize: constraints.maxHeight * 0.03),
                               maxLines: 1,
                               textAlign: TextAlign.start,
                             ),
@@ -141,7 +141,7 @@ class _KhqrWidgetState extends State<KhqrWidget> {
                                         widget.amount,
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: constraints.maxWidth * 0.08,
+                                          fontSize: constraints.maxWidth * 0.1,
                                         ),
                                         maxLines: 1,
                                         textAlign: TextAlign.start,
